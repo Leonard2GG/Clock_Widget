@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/widget_background"
+    android:padding="24dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Time Display -->
+            <TextClock
+                android:id="@+id/widget_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:format12Hour="h:mm"
+                android:format24Hour="HH:mm"
+                android:textSize="56sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif"
+                android:textColor="#000000"
+                android:letterSpacing="0.05" />
+
+            <!-- Date Display -->
+            <TextClock
+                android:id="@+id/widget_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:format12Hour="EEE, MMM dd"
+                android:format24Hour="EEE, MMM dd"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif"
+                android:textColor="#666666"
+                android:layout_marginTop="8dp"
+                android:letterSpacing="0.02" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,0 +1,431 @@
+// ADVANCED CUSTOMIZATION EXAMPLES
+// This file shows various ways to customize the Clock Widget
+
+// ============================================
+// 1. WIDGET LAYOUT CUSTOMIZATION
+// ============================================
+
+/* File: android/app/src/main/res/layout/widget_layout.xml
+
+Option A: Minimal Design (just time)
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_background"
+    android:padding="24dp"
+    android:gravity="center">
+    
+    <TextClock
+        android:id="@+id/widget_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:format12Hour="h:mm"
+        android:format24Hour="HH:mm"
+        android:textSize="56sp"
+        android:textStyle="bold"
+        android:fontFamily="@android:font/sans_serif_medium"
+        android:textColor="#000000" />
+        
+</LinearLayout>
+
+Option B: With Additional Information
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/widget_background"
+    android:padding="24dp"
+    android:gravity="center">
+    
+    <!-- Time -->
+    <TextClock
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:format12Hour="h:mm a"
+        android:format24Hour="HH:mm"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:fontFamily="@android:font/sans_serif_medium"
+        android:textColor="#000000" />
+    
+    <!-- Day of Week -->
+    <TextClock
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:format24Hour="EEEE"
+        android:textSize="16sp"
+        android:fontFamily="@android:font/sans_serif_medium"
+        android:textColor="#666666"
+        android:layout_marginTop="8dp" />
+    
+    <!-- Full Date -->
+    <TextClock
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:format24Hour="MMMM dd, yyyy"
+        android:textSize="12sp"
+        android:fontFamily="@android:font/sans_serif"
+        android:textColor="#999999"
+        android:layout_marginTop="4dp" />
+        
+</LinearLayout>
+
+*/
+
+// ============================================
+// 2. COLOR CUSTOMIZATION
+// ============================================
+
+/* File: android/app/src/main/res/drawable/widget_background.xml
+
+Option A: Strong Glassmorphism (More Transparent)
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="28dp" />
+    <solid android:color="#CC FFFFFF" />  <!-- 80% opacity -->
+</shape>
+
+Option B: Subtle Glassmorphism
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="28dp" />
+    <solid android:color="#F0FFFFFF" />  <!-- 94% opacity -->
+</shape>
+
+Option C: With Gradient Overlay
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="28dp" />
+    <gradient
+        android:type="linear"
+        android:angle="45"
+        android:startColor="#F0FFFFFF"
+        android:endColor="#E0FFFFFF" />
+</shape>
+
+Option D: Solid Color (No Transparency)
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="28dp" />
+    <solid android:color="#FFFFFF" />
+</shape>
+
+*/
+
+// ============================================
+// 3. FLUTTER APP CUSTOMIZATION
+// ============================================
+
+// Option A: Change Primary Color
+/*
+In lib/main.dart, modify ClockApp.build():
+
+return DynamicColorBuilder(
+  builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+    ColorScheme lightColorScheme;
+    ColorScheme darkColorScheme;
+
+    if (lightDynamic != null && darkDynamic != null) {
+      // Use custom seed color instead of dynamic
+      lightColorScheme = ColorScheme.fromSeed(
+        seedColor: Colors.deepPurple,  // CHANGE THIS
+        brightness: Brightness.light,
+      );
+      darkColorScheme = ColorScheme.fromSeed(
+        seedColor: Colors.deepPurple,
+        brightness: Brightness.dark,
+      );
+    } else {
+      lightColorScheme = ColorScheme.fromSeed(
+        seedColor: Colors.blue,
+        brightness: Brightness.light,
+      );
+      darkColorScheme = ColorScheme.fromSeed(
+        seedColor: Colors.blue,
+        brightness: Brightness.dark,
+      );
+    }
+    // ... rest of code
+  },
+);
+*/
+
+// Option B: Custom Font Family
+/*
+Add to pubspec.yaml:
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: SamsungOne
+      fonts:
+        - asset: assets/fonts/SamsungOneReg.ttf
+        - asset: assets/fonts/SamsungOneMedium.ttf
+          weight: 500
+        - asset: assets/fonts/SamsungOneBold.ttf
+          weight: 700
+
+Then in main.dart:
+theme: ThemeData(
+  useMaterial3: true,
+  colorScheme: lightColorScheme,
+  fontFamily: 'SamsungOne',  // CHANGE THIS
+),
+*/
+
+// Option C: Custom Card Design
+/*
+In lib/main.dart _buildClockCard() method, modify:
+
+return Container(
+  decoration: BoxDecoration(
+    // Add shadow
+    boxShadow: [
+      BoxShadow(
+        color: colorScheme.primary.withOpacity(0.3),  // Stronger shadow
+        blurRadius: 30,
+        offset: const Offset(0, 12),
+        spreadRadius: 2,
+      ),
+    ],
+    // Add gradient instead of solid color
+    gradient: LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        Colors.white.withOpacity(0.8),
+        Colors.white.withOpacity(0.6),
+      ],
+    ),
+    borderRadius: const BorderRadius.all(Radius.circular(28)),
+    // ... rest of code
+  ),
+);
+*/
+
+// ============================================
+// 4. WIDGET UPDATE FREQUENCY
+// ============================================
+
+/* File: android/app/src/main/res/xml/clock_widget_info.xml
+
+Update every 30 seconds (more frequent):
+<appwidget-provider
+    ...
+    android:updatePeriodMillis="30000"
+    ...
+/>
+
+Update every 5 minutes (less battery drain):
+<appwidget-provider
+    ...
+    android:updatePeriodMillis="300000"
+    ...
+/>
+
+Manual update only (no auto-refresh):
+<appwidget-provider
+    ...
+    android:updatePeriodMillis="0"
+    ...
+/>
+
+Note: The system respects a minimum of 30 minutes for battery efficiency.
+TextClock overrides this with real-time updates anyway.
+*/
+
+// ============================================
+// 5. WIDGET SIZE PRESETS
+// ============================================
+
+/* File: android/app/src/main/res/xml/clock_widget_info.xml
+
+Small Widget (2x2):
+<appwidget-provider
+    android:minWidth="100dp"
+    android:minHeight="100dp"
+    android:targetCellWidth="2"
+    android:targetCellHeight="2"
+    ...
+/>
+
+Medium Widget (4x2):
+<appwidget-provider
+    android:minWidth="200dp"
+    android:minHeight="100dp"
+    android:targetCellWidth="4"
+    android:targetCellHeight="2"
+    ...
+/>
+
+Large Widget (4x4):
+<appwidget-provider
+    android:minWidth="200dp"
+    android:minHeight="200dp"
+    android:targetCellWidth="4"
+    android:targetCellHeight="4"
+    ...
+/>
+*/
+
+// ============================================
+// 6. ADVANCED FLUTTER: ANIMATION EXAMPLE
+// ============================================
+
+/*
+Add animated rotation to the clock display:
+
+In lib/main.dart _ClockHomeState, add:
+late AnimationController _rotationController;
+
+@override
+void initState() {
+  super.initState();
+  _timeStream = Stream.periodic(
+    const Duration(seconds: 1),
+    (_) => DateTime.now(),
+  );
+  
+  _rotationController = AnimationController(
+    duration: const Duration(seconds: 60),
+    vsync: this,
+  )..repeat();
+}
+
+@override
+void dispose() {
+  _rotationController.dispose();
+  super.dispose();
+}
+
+Then wrap the time display with RotationTransition:
+RotationTransition(
+  turns: _rotationController,
+  child: Text(
+    '$hour:$minute',
+    style: TextStyle(
+      fontSize: 72,
+      fontWeight: FontWeight.bold,
+      color: colorScheme.primary,
+    ),
+  ),
+)
+*/
+
+// ============================================
+// 7. HOME WIDGET COMMUNICATION
+// ============================================
+
+/*
+To send data from Flutter app to widget:
+
+1. Add to pubspec.yaml:
+   home_widget: ^0.4.3
+
+2. In lib/main.dart, add:
+   import 'package:home_widget/home_widget.dart';
+
+   In main():
+   await HomeWidget.setAppGroupId(
+     appGroupId: 'com.example.clock_widget',
+   );
+
+3. To send data to widget:
+   await HomeWidget.saveWidgetData<String>(
+     'key',
+     'value',
+   );
+
+   // Trigger widget update
+   await HomeWidget.updateWidget(
+     name: 'ClockWidgetProvider',
+     iOSName: 'ClockWidget',
+   );
+
+4. In ClockWidgetProvider.kt, read data:
+   val sharedPref = context.getSharedPreferences(
+     "FlutterSharedPreferences",
+     Context.MODE_PRIVATE,
+   )
+   val value = sharedPref.getString("flutter.key", "")
+*/
+
+// ============================================
+// 8. THEME VARIANTS
+// ============================================
+
+/*
+Create additional background drawables for different themes:
+
+File: android/app/src/main/res/drawable/widget_background_accent.xml
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="28dp" />
+    <solid android:color="#E0FF6B9D" />  <!-- Pink tint -->
+</shape>
+
+File: android/app/src/main/res/drawable/widget_background_cool.xml
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="28dp" />
+    <solid android:color="#E066BB6A" />  <!-- Cool blue -->
+</shape>
+
+Then in widget_layout.xml:
+android:background="@drawable/widget_background_accent"
+*/
+
+// ============================================
+// 9. RESPONSIVE TEXT SIZING
+// ============================================
+
+/*
+Make text sizes responsive to widget size:
+
+In widget_layout.xml, use sp (scale-independent pixels):
+- Very Small Widget: textSize="32sp" (instead of 56sp)
+- Normal Widget: textSize="56sp"
+- Large Widget: textSize="72sp"
+
+Or use multiple layout files:
+- layout/widget_layout.xml (default - 4x3)
+- layout-land/widget_layout.xml (landscape - 6x3)
+- layout-small/widget_layout.xml (small - 2x2)
+*/
+
+// ============================================
+// 10. ACCESSIBILITY IMPROVEMENTS
+// ============================================
+
+/*
+Make the widget more accessible:
+
+In widget_layout.xml:
+<TextClock
+    android:id="@+id/widget_time"
+    ...
+    android:contentDescription="Current time"
+    android:textSize="56sp"
+    android:textColorHighlight="#CCCCCC"
+/>
+
+In ClockWidgetProvider.kt:
+override fun onUpdate(
+    context: Context,
+    appWidgetManager: AppWidgetManager,
+    appWidgetIds: IntArray
+) {
+    for (appWidgetId in appWidgetIds) {
+        val views = RemoteViews(context.packageName, R.layout.widget_layout)
+        
+        // Add content description for accessibility
+        views.setContentDescription(
+            R.id.widget_time,
+            "Current time display"
+        )
+        
+        appWidgetManager.updateAppWidget(appWidgetId, views)
+    }
+}
+*/
